@@ -1,11 +1,29 @@
-fastapi==0.111.0
-uvicorn==0.30.1
-qrcode==7.4.2
-pyzbar==0.1.9
-Pillow==10.3.0
-numpy==1.26.4
-matplotlib==3.8.4
-cryptography==42.0.7
-networkx==3.3
-passlib==1.7.4
-pycryptodome
+# --- FastAPI & ASGI Server ---
+fastapi               # Web framework for building APIs quickly
+uvicorn               # ASGI server for running FastAPI apps
+
+# --- QR Code Generation & Reading ---
+qrcode                # For generating QR codes for merchant VMIDs
+pyzbar                # For decoding QR codes (scanned by user)
+Pillow                # Image processing library used by pyzbar
+
+# --- Data & Visualization (Optional/Testing/Debugging) ---
+numpy                 # For numerical operations (may be used in LWC/Quantum)
+matplotlib            # For plotting graphs or debugging quantum simulations
+
+# --- Cryptography Libraries ---
+cryptography          # High-level cryptographic recipes (e.g., Fernet, etc.)
+pycryptodome          # Used for implementing SPECK and other custom ciphers
+
+# --- Blockchain Ledger Visualization ---
+networkx              # For visualizing blockchain graph (optional but insightful)
+
+# --- Password Hashing ---
+passlib               # Secure password hashing (bcrypt, argon2, etc.)
+
+# --- Environment Variable Handling ---
+python-dotenv         # To load secrets (e.g., DB URLs, API keys) from .env
+
+# --- Database Support ---
+sqlalchemy            # ORM for database modeling and transactions
+psycopg2-binary       # PostgreSQL driver to connect SQLAlchemy with PostgreSQL

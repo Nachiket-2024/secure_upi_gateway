@@ -1,6 +1,22 @@
-# --- Imports ---
 import hashlib
 import time
+import os
+from Crypto.Protocol.KDF import PBKDF2
+
+# --- Utility function to hash a password using PBKDF2 ---
+def hash_password(password: str) -> str:
+    """
+    Hashes a password using PBKDF2 (from PyCryptodome) with a salt.
+    
+    Args:
+        password (str): The plain text password to be hashed.
+    
+    Returns:
+        str: The hexadecimal string of the hashed password.
+    """
+    salt = os.urandom(16)  # Generate a random 16-byte salt
+    hashed_password = PBKDF2(password.encode(), salt, dkLen=32, count=1000000)  # PBKDF2 hash
+    return f"{salt.hex()}${hashed_password.hex()}"  # Return both salt and hashed password
 
 # --- Function to generate a unique hash from name, password, and timestamp ---
 def generate_secure_id(name: str, password: str, use_time: bool = True) -> str:
@@ -15,16 +31,8 @@ def generate_secure_id(name: str, password: str, use_time: bool = True) -> str:
     Returns:
         str: A 16-character hexadecimal ID (e.g., UID or MID)
     """
-    # Get current timestamp in seconds if needed
     timestamp = str(int(time.time())) if use_time else ""
-
-    # Concatenate inputs to form a unique seed
-    seed = name + password + timestamp
-
-    # Create SHA-256 hash of the seed string
-    hash_object = hashlib.sha256(seed.encode())
-
-    # Convert the hash into a hexadecimal string and take first 16 characters
-    unique_id = hash_object.hexdigest()[:16]
-
+    seed = name + password + timestamp  # Concatenate name, password, and timestamp
+    hash_object = hashlib.sha256(seed.encode())  # SHA-256 hashing
+    unique_id = hash_object.hexdigest()[:16]  # First 16 characters as UID/MID
     return unique_id
